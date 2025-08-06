@@ -167,6 +167,15 @@ impl Editor {
                         }
                     });
 
+                {
+                    let dropped_files = &ui.ctx().input().raw.dropped_files;
+                    let dropped_file_path = dropped_files.first().and_then(|x| x.path.as_ref());
+                    if let Some(path) = dropped_file_path {
+                        self.config_file = path.display().to_string().norm_path();
+                        is_config_changed = true;
+                    }
+                }
+                
                 // button to pick config file
                 if ui.button(format!("{} open", hex_code::FILE)).clicked() {
                     if let Some(path) = rfd::FileDialog::new().pick_file() {
