@@ -80,6 +80,7 @@ pub struct Editor {
     show_sync_hard_dialog: bool,
 
     // config panel
+    project_edit_text_changed: bool,
     config_edit_text_changed: bool,
 
     progress: Arc<AtomicUsize>,
@@ -138,6 +139,7 @@ impl Default for Editor {
                 "Confirm sync hard?".to_string(),
             ),
             show_sync_hard_dialog: false,
+            project_edit_text_changed: false,
 
             config_edit_text_changed: false,
 

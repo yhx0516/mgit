@@ -108,8 +108,16 @@ impl Editor {
                     widget_rect,
                     egui::TextEdit::singleline(&mut self.project_path),
                 );
+
+                if project_edit_text.changed() {
+                    self.project_edit_text_changed = true
+                }
                 // key down - enter
                 if project_edit_text.lost_focus() {
+                    if self.project_edit_text_changed {
+                        is_project_changed = true;
+                    }
+
                     if ui.input().key_pressed(egui::Key::Enter) {
                         is_project_changed = true;
 
@@ -122,6 +130,7 @@ impl Editor {
 
                 // if project_path changed , auto change config_file,
                 if is_project_changed {
+                    self.project_edit_text_changed = false;
                     self.project_path = self.project_path.norm_path();
 
                     is_config_changed = true;
