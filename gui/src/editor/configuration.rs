@@ -205,9 +205,17 @@ impl Editor {
                     widget_rect,
                     egui::TextEdit::singleline(&mut self.config_file),
                 );
+
+                if config_edit_text.changed() {
+                    self.config_edit_text_changed = true;
+                }
+
                 // key down - enter
                 if config_edit_text.lost_focus() {
                     self.config_file = self.config_file.norm_path();
+                    if self.config_edit_text_changed {
+                        is_config_changed = true;
+                    }
                     if ui.input().key_pressed(egui::Key::Enter) {
                         is_config_changed = true;
 
@@ -220,6 +228,7 @@ impl Editor {
 
                 // if config_file changed, auto refresh
                 if is_config_changed {
+                    self.config_edit_text_changed = false;
                     if Path::new(&self.config_file).is_file() {
                         self.push_recent_config();
                     }

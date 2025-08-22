@@ -79,6 +79,9 @@ pub struct Editor {
     sync_hard_dialog: Dialog,
     show_sync_hard_dialog: bool,
 
+    // config panel
+    config_edit_text_changed: bool,
+
     progress: Arc<AtomicUsize>,
     ops_message_collector: OpsMessageCollector,
 }
@@ -135,6 +138,8 @@ impl Default for Editor {
                 "Confirm sync hard?".to_string(),
             ),
             show_sync_hard_dialog: false,
+
+            config_edit_text_changed: false,
 
             progress: progress.clone(),
             ops_message_collector: OpsMessageCollector::new(send, progress),
